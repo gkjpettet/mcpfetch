@@ -5,32 +5,12 @@ Inherits MCPKit.ServerApplication
 		Sub Configure()
 		  Self.Name = "mcpfetch"
 		  
-		  // Disabling HTML fetching for the time being as it really bloats the context window.
-		  // For some reason, LLMs keep preferring HTML instead of Markdown retrieval.
-		  'RegisterTools(New HTMLFetchTool)
+		  RegisterTools(New HTMLFetchTool)
 		  
 		  RegisterTools(New MarkdownFetchTool)
 		  
 		End Sub
 	#tag EndEvent
-
-
-	#tag Method, Flags = &h0, Description = 52657475726E7320607360206C696D6974656420746F20606D61784C656E6774686020776F7264732E
-		Function Limit(s As String, maxLength As Integer) As String
-		  /// Returns `s` limited to `maxLength` words.
-		  
-		  If maxLength <= 1 Then Return s
-		  
-		  Var words() As String = s.Split(" ")
-		  
-		  If words.Count <= maxLength Then Return s
-		  
-		  words.ResizeTo(maxLength - 1)
-		  
-		  Return String.FromArray(words, " ")
-		  
-		End Function
-	#tag EndMethod
 
 
 End Class

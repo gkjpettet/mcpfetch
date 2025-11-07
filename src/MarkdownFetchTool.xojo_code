@@ -4,22 +4,16 @@ Inherits MCPKit.Tool
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  // Pass the superclass this tool's name and description.
-		  Super.Constructor("Markdown Web Page Fetch", "Retrieves the contents of a web page as Markdown from a URL.")
+		  Super.Constructor("Markdown Web Page Fetch", "Retrieves the contents of a web page as Markdown from a URL. If the URL is not HTML content, " + _
+		  "the link cannot be retrieved or no meaningful text content is found then an empty string is returned.")
 		  
 		  // The `url` parameter is a string.
 		  Var url As New MCPKit.ToolParameter("url", MCPKit.ToolParameterTypes.String_, _
-		  "The URL to fetch and convert to Markdown. If the URL is not HTML content or the link cannot be retrieved, an empty string is returned", _
+		  "The URL to fetch and convert to Markdown.", _
 		  False, "", True)
 		  
 		  Parameters.Add(url)
 		  
-		  // Disabling length limiting because LLMs consistently don't request enough tokens.
-		  ' // `maxLength` is an optional integer specifying the maximum length of the result returned. If no value is specified then the
-		  ' // full contents of the page is returned in Markdown format.
-		  ' Var maxLen As New MCPKit.ToolParameter("maxLength", MCPKit.ToolParameterTypes.Integer_, _
-		  ' "The maximum number of characters to return from the tool call. If not specified, the full page in Markdown format is returned", True, 0, False)
-		  ' 
-		  ' Parameters.Add(maxLen)
 		  
 		End Sub
 	#tag EndMethod
@@ -50,18 +44,14 @@ Inherits MCPKit.Tool
 		  // Get the arguments and their values.
 		  // The MCP server application will have validated that the arguments passed are valid.
 		  Var urlString As String
-		  'Var maxLength As Integer
 		  For Each arg As MCPKit.ToolArgument In args
-		    Select Case arg.Name
-		    Case "url"
+		    If arg.Name = "url" Then
 		      urlString = arg.Value.StringValue
-		      ' Case "maxLength"
-		      ' maxLength = arg.Value.IntegerValue
-		    End Select
+		      Exit
+		    End If
 		  Next arg
 		  
 		  Var link As URL
-		  
 		  Try
 		    link = New URL(urlString)
 		  Catch e As RuntimeException
@@ -84,13 +74,6 @@ Inherits MCPKit.Tool
 		  End If
 		  
 		  Return result
-		  
-		  ' If maxLength >= 0 Then
-		  ' // Return everything.
-		  ' Return result
-		  ' Else
-		  ' Return App.Limit(result, maxLength)
-		  ' End If
 		  
 		End Function
 	#tag EndMethod
