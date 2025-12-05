@@ -113,7 +113,9 @@ Protected Class HTMLMarkdownConverter
 		    Return result
 		    
 		  Catch err As RuntimeException
-		    System.DebugLog("HTMLMarkdownConverter.FromHTML() error: " + err.Message)
+		    If App.Verbose Then
+		      System.DebugLog("HTMLMarkdownConverter.FromHTML() error: " + err.Message)
+		    End If
 		    Return ""
 		  End Try
 		  
@@ -148,7 +150,9 @@ Protected Class HTMLMarkdownConverter
 		    Return result
 		    
 		  Catch err As RuntimeException
-		    System.DebugLog("HTMLKitMarkdownConverter.FromHTML() error: " + err.Message)
+		    If App.Verbose Then
+		      System.DebugLog("HTMLKitMarkdownConverter.FromHTML() error: " + err.Message)
+		    End If
 		    Return ""
 		  End Try
 		End Function

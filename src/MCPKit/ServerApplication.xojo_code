@@ -11,7 +11,9 @@ Inherits ConsoleApplication
 		    CommandLineParser.Parse(args)
 		  Catch e As RuntimeException
 		    MCPKit.Error(Nil, MCPKit.ErrorTypes.ServerError, "Error parsing command line arguments: " + e.Message)
-		    System.DebugLog("Error parsing command line arguments: " + e.Message)
+		    If Verbose Then
+		      System.DebugLog("Error parsing command line arguments: " + e.Message)
+		    End If
 		    Exit
 		  End Try
 		  
@@ -42,7 +44,7 @@ Inherits ConsoleApplication
 		          request.Value("method").StringValue.BeginsWith("notifications/") = False Then
 		          // Not a notification so much be an error.
 		          MCPKit.Error(Nil, MCPKit.ErrorTypes.InvalidRequest, "Missing `id` in request.")
-		          System.DebugLog("Missing `id` in request.")
+		          If Verbose Then System.DebugLog("Missing `id` in request.")
 		          Exit
 		        End If
 		      End If
@@ -67,7 +69,7 @@ Inherits ConsoleApplication
 		    Catch e As RuntimeException
 		      
 		      MCPKit.Error(RequestID, MCPKit.ErrorTypes.ServerError, "Unexpected runtime exception: " + e.Message)
-		      System.DebugLog("Error: " + e.Message)
+		      If Verbose Then System.DebugLog("Error: " + e.Message)
 		    End Try
 		  Wend
 		  
@@ -172,7 +174,9 @@ Inherits ConsoleApplication
 		    End If
 		    
 		  Else
-		    System.DebugLog("Unknown MCP client notification received.")
+		    If Verbose Then
+		      System.DebugLog("Unknown MCP client notification received.")
+		    End If
 		  End Select
 		  
 		  Return
@@ -288,7 +292,9 @@ Inherits ConsoleApplication
 		  
 		  If Not request.HasKey("method") Then
 		    MCPKit.Error(RequestID, MCPKit.ErrorTypes.InvalidRequest, "Missing `method` key in JSON request.")
-		    System.DebugLog("Missing `method` key in JSON request.")
+		    If Verbose Then
+		      System.DebugLog("Missing `method` key in JSON request.")
+		    End If
 		    Return Nil
 		  End If
 		  
