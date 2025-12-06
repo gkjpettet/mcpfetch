@@ -4,7 +4,7 @@ Inherits MCPKit.Tool
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  // Pass the superclass this tool's name and description.
-		  Super.Constructor("HTML Fetch", "Retrieves the raw HTML from a URL. If a tool exists to retrieve the Markdown or plain text contents of a URL, " + _
+		  Super.Constructor("URLToHTML", "Retrieves the raw HTML from a URL. If a tool exists to retrieve the Markdown or plain text contents of a URL, " + _
 		  "it is recommended that is used preferentially as the raw HTML will significantly increase token usage.")
 		  
 		  // The `url` parameter is a string.
